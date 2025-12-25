@@ -4,8 +4,8 @@ import { createUserWithEmailAndPassword, getAdditionalUserInfo, signInWithPopup 
 
 const CLOUD_FUNCTION_URL = "https://us-central1-biasdetectorextension.cloudfunctions.net/createCustomToken";
 // IMPORTANT: You must replace this with your actual extension ID.
-// const EXTENSION_ID = "pncjbinbmlfgkgedabggpfgafomgjamn"; // For production
-const EXTENSION_ID = "hmfclfihpajillcjpimodmlcbchjpmfh"; // For testing with Bias Detector
+const EXTENSION_ID = "pncjbinbmlfgkgedabggpfgafomgjamn"; // For production
+// const EXTENSION_ID = "hmfclfihpajillcjpimodmlcbchjpmfh"; // For testing with Bias Detector
 
 document.addEventListener('DOMContentLoaded', () => {
     const signupEmailBtn = document.getElementById('signupEmailBtn');
