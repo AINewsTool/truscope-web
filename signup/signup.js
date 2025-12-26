@@ -1,11 +1,13 @@
 // signup.js
-import { auth, provider } from './firebase-init.js';
+import { auth, provider } from '../js/firebase-init.js';
 import { createUserWithEmailAndPassword, getAdditionalUserInfo, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 const CLOUD_FUNCTION_URL = "https://us-central1-biasdetectorextension.cloudfunctions.net/createCustomToken";
-// IMPORTANT: You must replace this with your actual extension ID.
-const EXTENSION_ID = "pncjbinbmlfgkgedabggpfgafomgjamn"; // For production
-// const EXTENSION_ID = "hmfclfihpajillcjpimodmlcbchjpmfh"; // For testing with Bias Detector
+// Extension IDs for Production and Testing
+const EXTENSION_IDS = [
+    "pncjbinbmlfgkgedabggpfgafomgjamn", // Production
+    "hmfclfihpajillcjpimodmlcbchjpmfh"  // Testing
+];
 
 document.addEventListener('DOMContentLoaded', () => {
     const signupEmailBtn = document.getElementById('signupEmailBtn');
@@ -63,15 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 2. Send the custom token to the extension
                 if (chrome && chrome.runtime && customToken) {
-                    chrome.runtime.sendMessage(
-                        EXTENSION_ID,
-                        { action: "signInWithCustomToken", token: customToken },
-                        (response) => {
-                            if (chrome.runtime.lastError || response?.status !== "success") {
-                            console.error("Failed to sign in extension:", chrome.runtime.lastError?.message || response?.message);
+                    EXTENSION_IDS.forEach(extId => {
+                        chrome.runtime.sendMessage(
+                            extId,
+                            { action: "signInWithCustomToken", token: customToken },
+                            (response) => {
+                                if (chrome.runtime.lastError) {
+                                    console.log(`Note: Could not send token to extension ${extId} (it might not be installed).`);
+                                } else if (response?.status !== "success") {
+                                    console.error(`Extension ${extId} failed to sign in:`, response?.message);
+                                }
                             }
-                        }
-                    );
+                        );
+                    });
                 }
             } catch (error) {
                 console.error("Error exchanging token:", error);

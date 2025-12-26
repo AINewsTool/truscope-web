@@ -16,6 +16,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+// SECURITY NOTE: Ensure your Firebase Security Rules (Firestore/Storage) are configured to allow only authenticated users to access data where appropriate.
 const app = initializeApp(firebaseConfig);
 
 // Initialize Analytics

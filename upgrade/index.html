@@ -11,8 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel = "stylesheet" href="../output.css">
-    <link rel="stylesheet" href="../globals.css">
+    <link rel = "stylesheet" href="../css/output.css">
+    <link rel="stylesheet" href="../css/globals.css">
     <style>
         
 
@@ -480,9 +480,9 @@
 </footer>
     </main>
 
-    <script type="module" src="../firebase-init.js"></script>
+    <script type="module" src="../js/firebase-init.js"></script>
     <script type="module">
-        import { auth } from '../firebase-init.js';
+        import { auth } from '../js/firebase-init.js';
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -494,7 +494,10 @@
             });
 
             // --- AUTHENTICATION UI LOGIC --- 
-            const EXTENSION_ID = "hajgbjgbdejejppmmikigepdcjdngamn";
+            const EXTENSION_IDS = [
+                "pncjbinbmlfgkgedabggpfgafomgjamn", // Production
+                "hmfclfihpajillcjpimodmlcbchjpmfh"  // Testing
+            ];
 
             // Desktop view elements
             const loggedInViewDesktop = document.getElementById('logged-in-view-desktop');
@@ -527,13 +530,15 @@
             });
 
             const handleSignOut = () => {
-                if (chrome && chrome.runtime && EXTENSION_ID) {
-                    chrome.runtime.sendMessage(EXTENSION_ID, { type: 'LOGOUT_REQUEST' }, (response) => {
-                        if (chrome.runtime.lastError) {
-                            console.log("Could not send logout message to extension:", chrome.runtime.lastError);
-                        } else {
-                            console.log("Logout message sent to extension, response:", response);
-                        }
+                if (chrome && chrome.runtime) {
+                    EXTENSION_IDS.forEach(extId => {
+                        chrome.runtime.sendMessage(extId, { type: 'LOGOUT_REQUEST' }, (response) => {
+                            if (chrome.runtime.lastError) {
+                                console.log(`Could not send logout message to extension ${extId}:`, chrome.runtime.lastError);
+                            } else {
+                                console.log(`Logout message sent to extension ${extId}, response:`, response);
+                            }
+                        });
                     });
                 }
                 signOut(auth).catch(error => {

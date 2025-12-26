@@ -14,8 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/675928436b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="output.css">
-    <link rel="stylesheet" href="globals.css">
+    <link rel="stylesheet" href="css/output.css">
+    <link rel="stylesheet" href="css/globals.css">
     <style>
         #features-heading span {
             display: inline-block;
@@ -300,14 +300,14 @@
     
     </main>
     
-    <script type="module" src="/firebase-init.js"></script>
-    <script type="module" src="animation.js"></script> </body>
+    <script type="module" src="js/firebase-init.js"></script>
+    <script type="module" src="js/animation.js"></script> </body>
 
     <script>
         AOS.init();
     </script>
     <script type="module">
-        import { auth } from '/firebase-init.js';
+        import { auth } from './js/firebase-init.js';
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
         document.addEventListener('DOMContentLoaded', () => {

@@ -1,5 +1,5 @@
 // forgot-password.js
-import { auth } from './firebase-init.js';
+import { auth } from '../js/firebase-init.js';
 import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 document.addEventListener('DOMContentLoaded', () => {
